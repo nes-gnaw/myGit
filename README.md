@@ -67,6 +67,10 @@ $ ls -ah
 $ git add [file1][file2]
 $ git add .
 
+# 添加每个变化前，都会要求确认
+# 对于同一个文件的多处变化，可以实现分次提交
+$ git add -p
+
 # 提交到暂存区
 $ git commit -m "message"
 
@@ -78,6 +82,25 @@ $ git status
 
 # 查看修改的内容
 $ git diff
+
+# 提交暂存区到仓库区
+$ git commit -m [message]
+
+# 提交暂存区的指定文件到仓库区
+$ git commit [file1] [file2] ... -m [message]
+
+# 提交工作区自上次commit之后的变化，直接到仓库区
+$ git commit -a
+
+# 提交时显示所有diff信息
+$ git commit -v
+
+# 使用一次新的commit，替代上一次提交
+# 如果代码没有任何新变化，则用来改写上一次commit的提交信息
+$ git commit --amend -m [message]
+
+# 重做上一次commit，并包括指定文件的新变化
+$ git commit --amend [file1] [file2]
 ```
 
 ### 回退版本
@@ -117,5 +140,127 @@ $ rm [file]
 # 删除git
 $ git rm [file]
 $ git commit -m "msg"
+
+# 停止追踪指定文件，但该文件会保留在工作区
+$ git rm --cached [file]
+
+# 改名文件，并且将这个改名放入暂存区
+$ git mv [file-original] [file-renamed]
+```
+
+### 本地仓库连接远程仓库
+
+```
+echo "# gittest" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:nes-gnaw/gittest.git
+git push -u origin master
+```
+
+### 生成公钥
+
+```
+$ ssh-keygen -t rsa -C "xxx@xxx.com"  --id_rsa.pub文件
+```
+
+### 克隆远程仓库
+
+```
+git clone 'github.com' --ssh比https快
+```
+
+### 分支
+
+```
+# 创建分支并切换
+$ git checkout -b dev
+$ git switch -c dev	--两种写法
+
+# 加上-b参数表示创建并切换，相当于以下两条命令
+# 创建分支
+$ git branch dev
+
+# 切换分支
+$ git checkout dev
+$ git switch master
+
+# 查看当前分支
+$ git branch	--当前分支前面会标一个*号
+
+# 合并指定分支到当前分支(快速合并)
+$ git merge dev
+
+# 删除分支
+$ git branch -d dev
+# 强行删除
+$ git branch -D dev
+
+# 分支的合并情况
+$ git log --graph --pretty=oneline --abbrev-commit
+# 分支合并图
+$ git log --graph
+
+# 普通合并
+$ git merge --no-ff -m "merge with no-ff" dev
+```
+
+### BUG分支
+
+```
+# 储存当前分支的内容进度
+$ git stash
+
+# 查看储存列表
+$ git stash list
+
+# 恢复内容进度
+方法一：
+$ git stash apply	--恢复进度不删除存储区的内容
+$ git stash drop	--删除存储区的内容
+
+方法二：
+$ git stash pop		--恢复并删除
+
+# 恢复存储区的指定内容
+$ git stash apply stash@{0}
+
+# 复制”已提交“到当前分支
+$ git cherry-pick <commit>
+```
+
+### 提交远程仓库
+
+```
+# 提交到主分支
+$ git push origin master
+
+# 提交到其他分支
+$ git push origin dev
+```
+
+### 多人运动的流程
+
+```
+· 查看远程库信息，使用git remote -v；
+
+· 本地新建的分支如果不推送到远程，对其他人就是不可见的；
+
+· 从本地推送分支，使用git push origin branch-name，如果推送失败，先用git pull抓取远程的新提交；
+
+· 在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+
+· 建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
+
+· 从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+```
+
+
+
+```
+# rebase操作可以把本地未push的分叉提交历史整理成直线
+$ git rebase --变基
+# rebase的目的是使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比。
 ```
 
