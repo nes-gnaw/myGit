@@ -151,12 +151,18 @@ $ git mv [file-original] [file-renamed]
 ### 本地仓库连接远程仓库
 
 ```
-echo "# gittest" >> README.md
+echo "# this is gittest" >> README.md
 git init
 git add README.md
 git commit -m "first commit"
 git remote add origin git@github.com:nes-gnaw/gittest.git
 git push -u origin master
+
+# 查看远程库信息
+$ git remote -v
+
+# 删除已关联的GitHub远程库
+$ git remote rm origin
 ```
 
 ### 生成公钥
@@ -292,16 +298,37 @@ $ git tag -d v0.1
 ### tag标签远程操作
 
 ```
-$ 可以提交一个标签
-# git push origin <tagname>
+# 可以提交一个标签
+$ git push origin <tagname>
 
-$ 提交全部标签
-# git push origin --tags
+# 提交全部标签
+$ git push origin --tags
 
-$ 删除一个本地标签
-# git tag -d <tagname>
+# 删除一个本地标签
+$ git tag -d <tagname>
 
-$ 删除一个远程标签
-# git push origin :refs/tags/<tagname>
+# 删除一个远程标签
+$ git push origin :refs/tags/<tagname>
+```
+
+### 关联多个远程库
+
+```
+# 远程库的名称叫github，不叫origin
+$ git remote add github git@github.com:michaelliao/learngit.git
+
+# 远程库的名称叫gitee，不叫origin
+$ git remote add gitee git@gitee.com:liaoxuefeng/learngit.git
+
+# 查看远程库信息
+$ git remote -v
+gitee	git@gitee.com:liaoxuefeng/learngit.git (fetch)
+gitee	git@gitee.com:liaoxuefeng/learngit.git (push)
+github	git@github.com:michaelliao/learngit.git (fetch)
+github	git@github.com:michaelliao/learngit.git (push)
+
+# 推送到不同的库
+$ git push github master
+$ git push gitee master
 ```
 
