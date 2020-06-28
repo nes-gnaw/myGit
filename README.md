@@ -256,11 +256,52 @@ $ git push origin dev
 · 从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
 ```
 
-
+### 整理分支提交
 
 ```
 # rebase操作可以把本地未push的分叉提交历史整理成直线
 $ git rebase --变基
 # rebase的目的是使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比。
+```
+
+### tag标签
+
+```
+# 在当前分支的位置打一个新标签
+$ git tag v1.0
+
+# 查看所有标签
+$ git tag
+
+# 在指定的提交ID处达标签
+$ git tag v0.9 f52c633
+
+# 查看标签信息
+git show <tagname>
+
+# 用-a指定标签名，-m指定说明文字
+$ git tag -a v0.1 -m "version 0.1 released" 1094adb
+
+注：标签总是与commit挂钩，所以同一个标签可以同时出现在不同分支的commit处
+
+# 删除标签
+$ git tag -d v0.1
+
+```
+
+### tag标签远程操作
+
+```
+$ 可以提交一个标签
+# git push origin <tagname>
+
+$ 提交全部标签
+# git push origin --tags
+
+$ 删除一个本地标签
+# git tag -d <tagname>
+
+$ 删除一个远程标签
+# git push origin :refs/tags/<tagname>
 ```
 
